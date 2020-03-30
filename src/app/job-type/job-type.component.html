@@ -1,0 +1,34 @@
+
+
+<div *ngIf="jobTypes.length !=0; else noJobTypes">
+  <h1>Job Type</h1>
+  <table border="1">
+      <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Delete</th>
+      </tr>
+      <tr *ngFor="let jobType of jobTypes">
+            <td>
+            <a href="#" (click)="readJobType(jobType.id)"> {{jobType.id}}</a>
+            </td>
+          <td>{{jobType.name}}</td>
+          <td>{{jobType.jobTypeDesc}}</td>
+                <td>
+                <a href="#" (click)="delteJobType(jobType.id)">  Delete</a>
+               
+                </td>
+
+
+      </tr>
+  </table>   
+</div>
+<ng-template #noJobTypes>No job Types Availbale</ng-template>
+<form [formGroup]="jobTypeForm"  (ngSubmit)="saveJobType()">
+    Name:<input type="text" formControlName="name"/>
+    <span *ngIf="name.touched && name.invalid">Name is required One</span><br/>
+    JobType Desc:<input type="text" formControlName="jobTypeDesc"/>
+    <span *ngIf="jobTypeDesc.touched && jobTypeDesc.invalid">JobTypeDesc is required One</span><br/>
+    <input type="submit" value="submit"/>
+</form>

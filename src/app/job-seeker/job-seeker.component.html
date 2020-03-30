@@ -1,0 +1,131 @@
+<form [formGroup]="jobSeekerForm" (ngSubmit)="saveJobSeeker()">
+    First Name: <input type="text" formControlName="firstName" />
+    <span *ngIf="firstName.touched && firstName.invalid">First Name is required one</span> <br />
+
+    Last Name: <input type="text" formControlName="lastName" />
+    <span *ngIf="lastName.touched && lastName.invalid">Last Name is required one</span> <br />
+
+    DOB: <input type="date" formControlName="dob" />
+    <span *ngIf="dob.touched && dob.invalid">DOB is required one</span> <br />
+
+    Gender : <input type="radio" formControlName="gender" value="m" /> Male &nbsp;
+    <input type="radio" formControlName="gender" value="f" /> Female
+    <span *ngIf="gender.invalid"> Gender is required </span> <br />
+
+    Married Status : <input type="radio" formControlName="isMarried" [value]="true" /> Married &nbsp;
+    <input type="radio" formControlName="isMarried" [value]="false" /> Un-Married
+    <span *ngIf="isMarried.invalid"> Married Status is required </span> <br />
+
+    <div formGroupName="jobType">
+        Job Types:
+        <select formControlName="id">
+            <option value="">Please select</option>
+            <option *ngFor="let jobType of jobTypes" [value]="jobType.id">
+                {{jobType.name}}
+            </option>
+        </select>
+        <span *ngIf="jobTypeId.touched && jobTypeId.invalid"> Job Type is required </span> <br />
+
+    </div>
+
+    Profile Picture URL: <input type="text" formControlName="profilePicUrl" />
+    <span *ngIf="profilePicUrl.touched && profilePicUrl.invalid">Profile Picture URL is required one</span> <br />
+
+    Aadhar Number: <input type="text" formControlName="aadharNo" />
+    <span *ngIf="aadharNo.touched && aadharNo.invalid">Aadhar Number is required </span> <br />
+
+    PAN : <input type="text" formControlName="panNo" />
+    <span *ngIf="panNo.touched && panNo.invalid">PAN is required </span> <br />
+
+    <div formGroupName="currentLocation">
+        Locations:
+        <select formControlName="id">
+            <option value="">Please select</option>
+            <option *ngFor="let location of locations" [value]="location.id">
+                {{location.name}}
+            </option>
+        </select>
+        <span *ngIf="locationId.touched && locationId.invalid"> Location is required </span> <br />
+
+    </div>
+
+    Experience : <input type="text" formControlName="yearsOfExp" />
+    <span *ngIf="yearsOfExp.touched && yearsOfExp.invalid">Experience is required </span> <br />
+
+    Profile Summary: <textarea formControlName="profileSummary" rows="5" cols="15"></textarea>
+    <span *ngIf="profileSummary.touched && profileSummary.invalid">Profile Summary is required </span> <br />
+
+    Email: <input type="email" formControlName="email" />
+    <span *ngIf="email.touched && email.invalid">Email is required </span> <br />
+
+    Password: <input type="password" formControlName="currentPassword" />
+    <span *ngIf="currentPassword.touched && currentPassword.invalid">Password is required </span> <br />
+
+   
+
+    Boards:
+    <label formArrayName="boards" *ngFor="let a1 of jobSeekerForm.controls.boards.controls; let i=index">
+         <input type='checkbox' [formControlName]="i"/> {{boards[i].name}} 
+    </label>
+
+    <input type="submit" value="submit" />
+</form>
+
+<div *ngIf="jobSeekers.length !=0, else noJobSeekers">
+    <table border="1">
+        <h1>JobSeeker</h1>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>Married Status</th>
+            <th>Job Types</th>
+            <th>Profile Picture URL</th>
+            <th> Aadhar</th>
+            <th>PAN</th>
+            <th>Locations</th>
+            <th>Experience</th>
+            <th>Profile Summary</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Board</th>
+        </tr>
+        <tr *ngFor="let jobSeeker of jobSeekers">
+            <td>
+                <a href="#" (click)="readJobSeeker(jobSeeker.id)">{{jobSeeker.id}}</a>
+            </td>
+            <td>{{jobSeeker.firstName}}</td>
+            <td>{{jobSeeker.lastName}}</td>
+            <td>{{jobSeeker.dob | date: 'dd/MM/yyyy'}}</td>
+            <td>{{jobSeeker.gender}}</td>
+            <td>{{jobSeeker.isMarried}}</td>
+            <td>{{jobSeeker.jobType.name}}</td>
+            <td>{{jobSeeker.profilePicUrl}}</td>
+            <td>{{jobSeeker.aadharNo}}</td>
+            <td>{{jobSeeker.panNo}}</td>
+            <td>{{jobSeeker.currentLocation.name}}</td>
+            <td>{{jobSeeker.yearsOfExp}}</td>
+            <td>{{jobSeeker.profileSummary}}</td>
+            <td>{{jobSeeker.email}}</td>
+            <td>{{jobSeeker.currentPassword}}</td>
+            <td>{{jobSeeker.board.name}}</td>
+
+            <!-- <td><span *ngFor="let loc of jobSeeker.location">{{loc.name}},</span> </td> -->
+            <td>
+                <tr>
+                    <table>
+                        <tr *ngFor="let board of jobSeeker.board">
+                            <td style="border:1px solid rgb(116, 106, 106);">{{board.name}}</td>
+                        </tr>
+                    </table>
+                </tr>
+            </td>
+            <td>
+                <a href="#" (click)="deleteJobSeeker(jobSeeker.id)">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<ng-template #noJobSeekers>No JobSeekers Available</ng-template>

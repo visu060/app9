@@ -1,0 +1,63 @@
+<div *ngIf="locations.length != 0; else noLocations">
+    <h1>Location</h1>
+
+    <table border='1'>
+        <tr>
+            <th>SNO</th>
+            <th>Name</th>
+            <th>Desc</th>
+            <th>District</th>
+            <th>Delete</th>
+        </tr>
+        <tr *ngFor="let location of locations">
+            <td>
+                <a href="#" (click)="readLocation(location.id)">
+                    {{location.id}}
+                </a>
+            </td>
+            <td>{{location.name}}</td>
+            <td>{{location.locationDesc}}</td>
+            <td>{{location.district.name}}</td>
+            <td>
+                <a href="#" (click)="deleteLocation(location.id)">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<ng-template #noLocations>No Locations</ng-template>
+<form [formGroup]="locationForm" (ngSubmit)="saveLocation()">
+    <div formGroupName="district">
+        <div formGroupName="state">
+            <div *ngIf="states.length != 0">
+                States: <select #state 
+                                (change)="populateDistricts(state.value)" 
+                                formControlName="id">
+                            <option *ngFor="let state of states" 
+                                    [value]="state.id"
+                                    [selected]="id == state.id">
+                                {{state.name}}
+                            </option>
+                        </select>
+            </div>
+        </div>
+        <div *ngIf="districts.length != 0">
+            Districts: <select formControlName="id">
+                        <option *ngFor="let district of districts" [value]="district.id">
+                            {{district.name}}
+                        </option>
+                    </select>
+        </div>
+    </div>
+    Name: <input type="text" formControlName="name"/>
+    <span *ngIf="name.touched && name.invalid">
+        Name is required one 
+    </span> <br/>
+    Description: <input type="text" formControlName="locationDesc"/>
+    <span *ngIf="locationDesc.touched && locationDesc.invalid">
+        Desc is required one 
+    </span> <br/>
+    <input type="submit" value="submit"/>
+</form>

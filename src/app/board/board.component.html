@@ -1,0 +1,54 @@
+
+
+<div *ngIf="boards.length != 0; else noBoards">
+    <h1>Board</h1>
+
+    <table border='1'>
+        <tr>
+            <th>SNO</th>
+            <th>Name</th>
+            <th>Desc</th>
+            <th>Delete</th>
+        </tr>
+        <tr *ngFor="let board of boards">
+            <td>
+                <a href="#" (click)="readBoard(board.id)">
+                    {{board.id}}
+                </a>
+            </td>
+            <td>{{board.name}}</td>
+            <td>{{board.boardDesc}}</td>
+            <!-- <td>{{board.preferredBoard.id}}</td> -->
+            <td>
+                <a href="#" (click)="deleteBoard(board.id)">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>
+<ng-template #noBoards>No boards</ng-template>
+
+<form [formGroup]="boardForm" (ngSubmit)="saveBoard()">
+    Name: <input type="text" formControlName="name"/>
+    <span *ngIf="name.touched && name.invalid">
+        Name is required one 
+    </span> <br/>
+    Description: <input type="text" formControlName="boardDesc"/>
+    <span *ngIf="boardDesc.touched && boardDesc.invalid">
+        Desc is required one 
+    </span> <br/>
+
+<!-- 
+    PreferredBoard: <input type="text" formControlName="preferredBoardDesc"/>
+    <span *ngIf="preferredBoardDesc.touched && preferredBoardDesc.invalid">
+        Preferred Board is required one 
+    </span> <br/> -->
+
+    <input type="submit" value="submit"/>
+</form>
+
+
+
+
+

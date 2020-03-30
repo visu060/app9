@@ -1,0 +1,39 @@
+
+<div *ngIf="states.length != 0; else noStates">
+    <h1>State</h1>
+
+    <table border='1'>
+        <tr>
+            <th>SNO</th>
+            <th>Name</th>
+            <th>Desc</th>
+            <th>Delete (?) </th>
+        </tr>
+        <tr *ngFor="let state of states">
+            <td><a href="#" (click)="readState(state.id)">{{state.id}}</a></td>
+            <td>{{state.name}}</td>
+            <td>{{state.stateDesc}}</td>
+            <td><a href="#" (click)="deleteState(state.id)">Delete</a></td>
+        </tr>
+    </table>    
+</div>
+<ng-template #noStates>No States</ng-template>
+<form [formGroup]="stateForm" (ngSubmit)="saveState()">
+    Name: <input type="text" formControlName="name"/>
+    <span *ngIf="name.touched && name.invalid">
+        Name is required one
+    </span> <br/>
+    Description: <input type="text" formControlName="stateDesc"/>
+    <span *ngIf="stateDesc.touched && stateDesc.invalid">
+        Description is required one
+    </span> <br/>
+    <input type="submit" value="submit"/>
+</form>
+
+
+
+
+
+
+
+
